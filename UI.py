@@ -1,46 +1,38 @@
 import streamlit as st
 from io import BytesIO
-from Translator import Translator
+from WebScrapping import find_anime_picture, load_image
 from mini_translator import MiniTranslator
+from Translator import Translator
 
-# İki sütun oluştur
+st.header("Anime Altyazı Çevirici")
+
 col1, col2 = st.columns(2)
 
-# İlk sütunda dosya yükleme widget'ı
 with col1:
-    uploaded_file = st.file_uploader("Dosya Yükle")
+    uploaded_file = st.file_uploader("SRT Dosyası Yükle", type=['srt'])
 
-# İkinci sütunda dosyayı indirme butonu
 with col2:
     if uploaded_file is not None:
-        # Dosya adını göster
-        st.write("Yüklenen Dosya:", uploaded_file.name)
+        image_url = find_anime_picture(uploaded_file.name.split(".")[0])
+        st.image(load_image(image_url), caption="Image from URL")
 
-        content = uploaded_file.getvalue().decode("utf-8-sig")
-        lines = content.splitlines()
-
-        sentences = []
-        for i in range(len(lines)):
-            if lines[i][0].isdigit():
-                continue
-            else:
-                input_text = lines[i]
-                # translator = Translator()
-                # translated_text = translator.translate_jap_to_eng("こんにちは、朝食は食べましたか？")
-                # translated_text = translator.translate(translated_text)
-                mini = MiniTranslator()
-                translated_text = mini.minitranslate(input_text)
-
-                lines[i]=translated_text
+if st.button("Çevir ve İşle"):
+    if uploaded_file is not None:
+        # SRT dosyasını oku ve çevir
+        mini = MiniTranslator()
+        big = Translator()
+        srt_content = uploaded_file.getvalue().decode("utf-8-sig")
+        #translated_lines = [mini.minitranslate(line, ) for line in srt_content.splitlines()]
+        #translated_lines = [big.translate(line) for line in srt_content.splitlines()]
+        translated_lines = srt_content
 
 
-            # uploaded_file = translated_file
-            buf = BytesIO(lines.getvalue())
-            st.download_button(
-                label="Dosyayı İndir",
-                data=buf,
-                file_name=uploaded_file.name,
-                mime=uploaded_file.type
-            )
-
-
+        # Çevrilen metni bir dosya olarak indirmeye hazırla
+        translated_srt = "\n".join(translated_lines)
+        translated_buf = BytesIO(translated_srt.encode("utf-8"))
+        st.download_button(
+            label="Çevrilen SRT Dosyasını İndir",
+            data=translated_buf,
+            file_name="cevrilen.srt",
+            mime="text/plain"
+        )
