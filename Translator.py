@@ -95,7 +95,7 @@ class Translator:
 
         return eng_out
 
-    def translate(self, text, model_name=None):
+    def translate(self, text, model_name='Helsinki-NLP/opus-tatoeba-en-tr'):
         if not model_name:
             model_name = self.model_name
 

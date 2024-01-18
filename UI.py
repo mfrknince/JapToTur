@@ -1,6 +1,8 @@
 import streamlit as st
 from io import BytesIO
 from Translator import Translator
+from mini_translator import MiniTranslator
+
 # İki sütun oluştur
 col1, col2 = st.columns(2)
 
@@ -23,9 +25,12 @@ with col2:
                 continue
             else:
                 input_text = lines[i]
-                translator = Translator()
-                translated_text = translator.translate_jap_to_eng("こんにちは、朝食は食べましたか？")
-                translated_text = translator.translate(translated_text)
+                # translator = Translator()
+                # translated_text = translator.translate_jap_to_eng("こんにちは、朝食は食べましたか？")
+                # translated_text = translator.translate(translated_text)
+                mini = MiniTranslator()
+                translated_text = mini.minitranslate(input_text)
+
                 lines[i]=translated_text
 
 
