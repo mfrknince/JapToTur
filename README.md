@@ -11,6 +11,6 @@ mini_translator - modellerin en son tune edilmiş hazır hallerini alır
 Translator - Japonca-İngilizce çeviri yapan model tekrardan eğitilerek daha iyi sonuçlar alması hedeflenir
 
 
-Dinçer Kaan Turanlı 
-Ragıp Kaan Söylev
-Muhammet Furkan İnce
+Dinçer Kaan Turanlı - @dincerkaan \n
+Ragıp Kaan Söylev - @crispusn  \n
+Muhammet Furkan İnce - @mfrknince  \n
